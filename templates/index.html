@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Final Project DM</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/animate/animate.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/select2/select2.min.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.css')}}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/util.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
+<!--===============================================================================================-->
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" />
+    <link href="{{url_for('static', filename='css/main.css')}}" rel="stylesheet" />
+    <style>
+    	table {
+		  border-collapse: collapse;
+		  width: 100%;
+		}
+
+		th, td {
+		  text-align: left;
+		  padding: 8px;
+		}
+
+		tr:nth-child(even){background-color: #f8f6ff}
+
+		th {
+		  background-color: #6c7ae0;
+		  color: white;
+		}
+		.table100 {
+			padding-top: 0px;
+		}
+    </style>
+</head>
+<body>
+
+
+    <div class="s003">
+      <form method = "POST" action="{{ url_for('index') }}">
+        <div class="inner-form">
+          <div class="input-field first-wrap">
+            <div class="input-select">
+              <select data-trigger="" name="db-select">
+                {% for db in data %}
+              	<option value="{{ db }}">{{ db }}</option>
+              	{% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="input-field second-wrap">
+            <input name="search" type="text" autocomplete="off" placeholder="Enter keywords here"> </input>
+          </div>
+          <div class="input-field third-wrap">
+            <button class="btn-search" type="submit">
+              <svg class="svg-inline--fa fa-search fa-w-16" aria-hidden="true" data-prefix="fas" data-icon="search" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    {% if output %}
+
+		<p name = "DB-name"> Database Selected: {{database}}</p>
+		<p name = "search-query"> Search query (Inital): {{Sq}} </p>
+		{% if fk != False %}
+			<p name = "FK-results"> Foreign Key selected: {{col}} - {{fk}} in Table - {{tab}} </p>
+		{% endif %} 
+		<p name = "len"> Communication Overhead: {{l}} bytes</p>
+		<p name = "time"> Time taken: {{time}} seconds</p>
+	{% endif %}
+	 	<div class="limiter">
+
+
+								{% for item in output %}
+									{% if item[3] == True %}
+										<tr>
+											{% for key in item[1] %}
+												{% if key in item[2] %}
+													<td style="text-align: center"><a href ="/{{key}}/{{item[1][key]}}/{{item[0]}}/{{database}}/{{Sq}}">{{ item[1][key] }}</a></td>
+												{% else %}
+													<td style="text-align: center">{{ item[1][key] }}</td>
+												{% endif %}
+												
+											{% endfor %}
+										</tr>
+									{% else %}
+													</tbody>
+												</table>
+												</div> <!--	container-table100 -->
+												</div> <!-- wrap-table100 -->
+												</div> <!-- table100 ver1 m-b-50 -->
+												<table>
+													<tbody>
+														<tr>
+															<td style="text-align: center;""><b> Table: {{item[0]}} </b>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												<div class="container-table100">
+												<div class="wrap-table100">
+												<div class="table100 ver1 m-b-50 js-pscroll">
+
+												<table>
+													<thead>
+														<tr>
+															{% for key in item[1] %}
+																<th style="text-align: center">{{ key }}</th>
+															{% endfor %}
+														</tr>
+													</thead>		
+													<tbody>
+														<tr>
+															{% for key in item[1] %}
+																{% if key in item[2] %}
+																	<td style="text-align: center"><a href ="/{{key}}/{{item[1][key]}}/{{item[0]}}/{{database}}/{{Sq}}">{{ item[1][key] }}</a></td> 
+																{% else %}
+																	<td style="text-align: center">{{ item[1][key] }}</td>
+																{% endif %}
+																		
+															{% endfor %}
+														</tr>
+									{% endif %}
+								{% endfor %}
+							</tbody>
+						</table>
+	</div>
+
+
+
+<!--===============================================================================================-->	
+    <script src="{{ url_for('static', filename='js/extention/choices.js')}}"></script>
+    <script>
+      const choices = new Choices('[data-trigger]',
+      {
+        searchEnabled: false,
+        itemSelectText: '',
+      });
+
+    </script>
+
+
+	<script src="{{ url_for('static', filename='vendor/jquery/jquery-3.2.1.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{url_for('static', filename='vendor/bootstrap/js/popper.js')}}"></script>
+	<script src="{{url_for('static', filename='vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{url_for('static', filename='vendor/select2/select2.min.js')}}"></script>
+<!--===============================================================================================-->
+	<script src="{{url_for('static', filename='vendor/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+			
+		
+	</script>
+<!--===============================================================================================-->
+	<script src="{{url_for('static', filename='js/main.js')}}"></script>
+
+</body>
+</html>
